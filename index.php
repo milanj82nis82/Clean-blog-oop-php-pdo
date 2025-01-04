@@ -27,7 +27,7 @@
 $blog = new Blog();
 $user = new User();
 
-foreach ($blog -> getHomeBlogPosts() as $blogPost){
+foreach ($blog -> getHomeBlogPosts()['posts'] as $blogPost){
 ?>
                   <div class="post-preview">
                         <a href="view-posts.php?id=<?php echo $blogPost['id'] ?>">
@@ -62,13 +62,45 @@ foreach ($blog -> getHomeBlogPosts() as $blogPost){
  
  ?>
 
-                    
-
-                   
-                    
-                  
+              
                     <!-- Pager-->
-                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+                    <div class="d-flex justify-content-end mb-4">
+                    <nav aria-label="Page navigation example">
+
+                    <ul class="pagination">
+  
+
+<?php  
+
+try {
+
+$pages = $blog -> getHomeBlogPosts()['pages'];
+
+for ( $x =1 ; $x <= $pages ; $x++ ){
+    $perPage = $blog -> getHomeBlogPosts()['per-page'];
+?>
+
+    <li class="page-item"><a class="page-link" href="index.php?page=<?php echo $x ?>&per-page=<?php echo $perPage ?>"><?php echo $x ; ?> </a></li>
+<?php
+
+}
+
+
+} catch ( PDOException $e ){
+    echo $e -> getMessage();
+}
+
+
+?>
+
+ 
+
+   
+  </ul>
+</nav>
+                    
+                    
+                    </div>
                 </div>
             </div>
         </div>
