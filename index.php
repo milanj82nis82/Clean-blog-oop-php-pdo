@@ -21,58 +21,52 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <!-- Post preview-->
-                    <div class="post-preview">
-                        <a href="post.html">
-                            <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>
-                            <h3 class="post-subtitle">Problems look mighty small from 150 miles up</h3>
+ <?php   
+ try {
+
+$blog = new Blog();
+$user = new User();
+
+foreach ($blog -> getHomeBlogPosts() as $blogPost){
+?>
+                  <div class="post-preview">
+                        <a href="view-posts.php?id=<?php echo $blogPost['id'] ?>">
+                            <h2 class="post-title"><?php echo $blogPost['title'] ?></h2>
+                            <h3 class="post-subtitle"><?php echo substr( $blogPost['content'] , 0 , 240 ) ;?></h3>
                         </a>
                         <p class="post-meta">
                             Posted by
-                            <a href="#!">Start Bootstrap</a>
-                            on September 24, 2023
+                            <a href="view-user.php?id=<?php echo $blogPost['user_id'] ?>">  
+                                <strong>
+                            <?php  
+                            echo $user -> getUserDetailsById($blogPost['user_id'])['first_name'] . ' 
+                            ' . $user -> getUserDetailsById($blogPost['user_id'])['last_name'] ;   
+                            
+                            ?>
+                                </strong>
+</a>
+                            on <strong><?php echo $blogPost['created_at'] ?></strong>
                         </p>
                     </div>
                     <!-- Divider-->
                     <hr class="my-4" />
-                    <!-- Post preview-->
-                    <div class="post-preview">
-                        <a href="post.html"><h2 class="post-title">I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.</h2></a>
-                        <p class="post-meta">
-                            Posted by
-                            <a href="#!">Start Bootstrap</a>
-                            on September 18, 2023
-                        </p>
-                    </div>
-                    <!-- Divider-->
-                    <hr class="my-4" />
-                    <!-- Post preview-->
-                    <div class="post-preview">
-                        <a href="post.html">
-                            <h2 class="post-title">Science has not yet mastered prophecy</h2>
-                            <h3 class="post-subtitle">We predict too much for the next year and yet far too little for the next ten.</h3>
-                        </a>
-                        <p class="post-meta">
-                            Posted by
-                            <a href="#!">Start Bootstrap</a>
-                            on August 24, 2023
-                        </p>
-                    </div>
-                    <!-- Divider-->
-                    <hr class="my-4" />
-                    <!-- Post preview-->
-                    <div class="post-preview">
-                        <a href="post.html">
-                            <h2 class="post-title">Failure is not an option</h2>
-                            <h3 class="post-subtitle">Many say exploration is part of our destiny, but it’s actually our duty to future generations.</h3>
-                        </a>
-                        <p class="post-meta">
-                            Posted by
-                            <a href="#!">Start Bootstrap</a>
-                            on July 8, 2023
-                        </p>
-                    </div>
-                    <!-- Divider-->
-                    <hr class="my-4" />
+<?php
+}
+
+
+
+ } catch ( PDOException $e ){
+    echo $e -> getMessage();
+ }
+ 
+ 
+ ?>
+
+                    
+
+                   
+                    
+                  
                     <!-- Pager-->
                     <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
                 </div>
