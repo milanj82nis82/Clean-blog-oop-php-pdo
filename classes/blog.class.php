@@ -25,21 +25,23 @@ class Blog extends DbConnect {
         $pages = ceil( $AllCount / $perPage);
 
         return array( 'posts' => $posts , 'pages' => $pages , 'per-page' => $perPage);
-        
-
-
-
-
-
-        return $posts;
-
-
-
-
-
+     
     }// getHomeBlogPosts
 
 
+    public function getBlogDetails( $id ) {
+
+        $sql = 'select * from posts p left join post_categories c on p.id = c.post_id where p.id = ? limit 1 ';
+        $query = $this -> connect() -> prepare($sql);
+        $query -> execute( [ $id ]);
+        $result = $query -> fetch();
+        if( !$result ){
+            header('Location:index.php');
+        }
+        return $result;
+
+
+    }// getBlogDetails
 
 
 
